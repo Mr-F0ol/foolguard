@@ -6,6 +6,12 @@
 
 ---
 
+## Demo
+
+![FoolGuard demo](docs/demo.gif)
+
+---
+
 ## Screenshots
 
 | Dashboard | Detalhe da aplicação |
