@@ -1,0 +1,82 @@
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: foolguard_db
+    environment:
+      POSTGRES_USER: foolguard
+      POSTGRES_PASSWORD: foolguard_dev_password
+      POSTGRES_DB: foolguard
+    ports:
+      - "5432:5432"
+    volumes:
+      - foolguard_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U foolguard"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: foolguard_redis
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  api:
+    build: .
+    container_name: foolguard_api
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000
+    ports:
+      - "8000:8000"
+    env_file: .env
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  worker:
+    build: .
+    container_name: foolguard_worker
+    command: python -m workers.worker
+    env_file: .env
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  # Roda o monitor a cada 5 minutos via cron simples (watch loop).
+  # Em produção, substituir por RQ Scheduler ou uma cron job do sistema.
+  monitor-cron:
+    build: .
+    container_name: foolguard_monitor
+    command: >
+      sh -c "while true; do
+        python -m workers.monitor;
+        sleep 300;
+      done"
+    env_file: .env
+    depends_on:
+      db:
+        condition: service_healthy
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+    container_name: foolguard_frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - VITE_API_URL=http://localhost:8000
+
+volumes:
+  foolguard_pgdata:
