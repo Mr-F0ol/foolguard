@@ -53,51 +53,6 @@
 
 ---
 
-## Funcionalidades
-
-### Mês 1 — API Principal ✅
-- Registro e login com senhas protegidas por bcrypt
-- Autenticação via JWT (assinado e com expiração)
-- CRUD de aplicações com controle de acesso (OWASP A01)
-- Mensagens de erro genéricas (evita enumeração de usuários)
-- Schemas separados dos modelos (nenhuma resposta expõe senha)
-
-### Mês 2 — Build Worker ✅
-- Build assíncrono via fila Redis (RQ)
-- Clona o repositório Git e executa `docker build` em container isolado
-- Atualiza status em tempo real: `registered → queued → building → build_success/failed`
-- Histórico de logs de build acessível via API
-
-### Mês 3 — Security Scanner ✅
-- **Semgrep**: SAST — análise estática do código em busca de falhas
-- **Gitleaks**: secret scanning — senhas e chaves vazadas no repositório
-- **Trivy**: scan da imagem Docker — vulnerabilidades em OS e dependências
-- Scan disparado automaticamente após build bem-sucedido
-- Resultados armazenados por ferramenta com contagem de findings
-
-### Mês 4 — Deploy Service ✅
-- Deploy na AWS via Terraform (ECS Fargate + Application Load Balancer)
-- Push da imagem para ECR com autenticação automática
-- Infraestrutura como Código: VPC, Security Groups, IAM mínimo
-- Modo dry-run para desenvolvimento local sem AWS
-- Endpoint URL capturado do output do Terraform
-
-### Mês 5 — Monitor Service ✅
-- Health checks periódicos em todas as apps deployadas
-- Detecção de: app fora do ar, latência alta, scan com findings não resolvidos
-- Alertas por nível (info / warning / critical) com deduplicação de 2h
-- Reconhecimento de alertas pelo usuário via API
-- Sumário de alertas ativos por nível (widget de dashboard)
-
-### Mês 6 — Painel Web + Threat Model ✅
-- Dashboard com lista de apps e sumário de alertas críticos
-- Detalhe de app com abas: Builds, Segurança, Deploys, Alertas
-- Botões de ação: disparar build, deploy, reconhecer alertas
-- Login e registro integrados
-- Tema escuro com CSS puro (sem framework externo)
-- Documento de Threat Model (STRIDE) cobrindo a própria plataforma
-
----
 
 ## Camada de Segurança
 
