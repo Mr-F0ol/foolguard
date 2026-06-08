@@ -5,7 +5,7 @@
  * sempre enviado e que erros de autenticação redirecionem para o login.
  */
 
-const BASE = "/api";
+const BASE = (import.meta.env.VITE_API_URL ?? "") + "/api";
 
 function getToken() {
   return localStorage.getItem("sf_token");

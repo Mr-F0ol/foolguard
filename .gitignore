@@ -15,9 +15,12 @@ __pycache__/
 .coverage
 htmlcov/
 
-# Frontend
+# Node
+node_modules/
 frontend/node_modules/
 frontend/dist/
+package.json
+package-lock.json
 
 # Sistema
 .DS_Store

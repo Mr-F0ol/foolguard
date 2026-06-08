@@ -1,6 +1,20 @@
 # FoolGuard — Plataforma de Deploy Seguro
 
+[![CI](https://github.com/Mr-F0ol/foolguard/actions/workflows/ci.yml/badge.svg)](https://github.com/Mr-F0ol/foolguard/actions/workflows/ci.yml)
+
 > Uma plataforma DevSecOps que **constrói**, **audita**, **publica** e **monitora** aplicações de forma segura — automaticamente. Pense numa versão mini e pessoal de Vercel + Snyk combinados.
+
+---
+
+## Screenshots
+
+| Dashboard | Detalhe da aplicação |
+|---|---|
+| ![Dashboard](docs/screenshots/dashboard.png) | ![App Detail](docs/screenshots/app-detail.png) |
+
+| Login | Relatório de segurança |
+|---|---|
+| ![Login](docs/screenshots/login.png) | ![Scans](docs/screenshots/scans.png) |
 
 ---
 
@@ -109,6 +123,18 @@
 ## Threat Model
 
 O documento [`threat_model.md`](./threat_model.md) mapeia as ameaças à própria plataforma usando a metodologia STRIDE, cobre a superfície de ataque completa e lista os riscos residuais conhecidos com planos de mitigação.
+
+---
+
+## Deploy online (Render)
+
+O arquivo [`render.yaml`](./render.yaml) configura todos os serviços automaticamente no Render.com (plano free):
+
+1. Crie uma conta em [render.com](https://render.com)
+2. New → **Blueprint** → conecte o repositório `Mr-F0ol/foolguard`
+3. Render detecta o `render.yaml` e cria: API + Frontend + Postgres + Redis
+
+> **Nota**: o worker de build precisa de acesso ao Docker socket, que não está disponível no plano free do Render. As demais funcionalidades (auth, gerenciamento de apps, visualização de resultados) funcionam normalmente. Para funcionalidade completa, use Docker Compose em um VPS.
 
 ---
 
