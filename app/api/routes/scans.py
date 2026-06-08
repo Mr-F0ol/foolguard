@@ -12,7 +12,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.api.deps import get_current_user
 from app.core.database import get_db
 from app.models.models import Application, ScanResult, User
-from app.schemas.schemas import ScanResultRead, ScanSummary
+from app.schemas.schemas import ScanSummary
 
 router = APIRouter(prefix="/api/applications", tags=["scans"])
 

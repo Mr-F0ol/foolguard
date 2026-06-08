@@ -138,7 +138,7 @@ def _generate_dockerfile(directory: str) -> str:
             "COPY package*.json ./\n"
             "RUN npm install --production\n"
             "COPY . .\n"
-            f'CMD ["npm", "start"]\n'
+            'CMD ["npm", "start"]\n'
         )
     if stack == "python":
         has_req = (d / "requirements.txt").exists()
